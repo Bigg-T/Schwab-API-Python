@@ -51,6 +51,24 @@ asyncio_mode = "auto"
 testpaths = "tests/"
 
 [project.optional-dependencies]
-test = [
+examples = [
     'python-dotenv',
+]
+
+[dependency-groups]
+test = [
+    'pytest',
+    'pytest-asyncio',
+    'coverage'
+]
+
+security = [
+    'pip-audit',
+    'pipdeptree'
+]
+
+
+[tool.coverage.run]
+omit = [
+    "*/tests/*"
 ]
