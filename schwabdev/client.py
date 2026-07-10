@@ -81,6 +81,11 @@ class ClientBase:
         match format:
             case TimeFormat.ISO_8601 | TimeFormat.ISO_8601.value:
                 # Schwab expects 'YYYY-MM-DDTHH:MM:SS.mmmZ' (millisecond precision)
+                # A trailing Z denotes UTC, so normalize aware datetimes before
+                # formatting. Naive datetimes retain the existing assumed-UTC
+                # behavior for backward compatibility.
+                if dt.tzinfo is not None and dt.utcoffset() is not None:
+                    dt = dt.astimezone(datetime.timezone.utc)
                 return dt.strftime("%Y-%m-%dT%H:%M:%S.") + f"{dt.microsecond // 1000:03d}Z"
             case TimeFormat.EPOCH | TimeFormat.EPOCH.value:
                 return int(dt.timestamp())
