@@ -26,7 +26,7 @@ class ClientBase:
 
     _base_api_url = "https://api.schwabapi.com"
 
-    def __init__(self, app_key, app_secret, callback_url="https://127.0.0.1", tokens_db="~/.schwabdev/tokens.db",
+    def __init__(self, app_key=None, app_secret=None, callback_url="https://127.0.0.1", tokens_db="~/.schwabdev/tokens.db",
                  encryption=None, timeout=10, call_on_auth=None, open_browser_for_auth=True, validate_params=True):
         """
         Initialize a client to access the Schwab API.
@@ -115,7 +115,7 @@ class ClientBase:
 
 class Client(ClientBase):
 
-    def __init__(self, app_key: str, app_secret: str, callback_url: str = "https://127.0.0.1",
+    def __init__(self, app_key: str = None, app_secret: str = None, callback_url: str = "https://127.0.0.1",
                  tokens_db: str = "~/.schwabdev/tokens.db", encryption: str = None, timeout: int = 10,
                  call_on_auth: callable = None, open_browser_for_auth: bool = True, validate_params: bool = True):
         """
@@ -624,7 +624,7 @@ class Client(ClientBase):
 
 class ClientAsync(ClientBase):
 
-    def __init__(self, app_key: str, app_secret: str, callback_url: str = "https://127.0.0.1",
+    def __init__(self, app_key: str = None, app_secret: str = None, callback_url: str = "https://127.0.0.1",
                  tokens_db: str = "~/.schwabdev/tokens.db", encryption: str = None, timeout: int = 10,
                  call_on_auth: callable = None, open_browser_for_auth: bool = True, 
                  validate_params: bool = True, parsed: bool = False):

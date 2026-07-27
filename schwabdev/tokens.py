@@ -25,11 +25,11 @@ def _now():
 
 
 def _load_env_globals() -> dict:
-    """Load global credentials from ~/schwabdev/env.json (keys: app_key, app_secret,
+    """Load global credentials from ~/.schwabdev/env.json (keys: app_key, app_secret,
     callback_url). Returns {} if the file is absent; malformed JSON is raised so it
     isn't silently ignored."""
     try:
-        with open(os.path.expanduser("~/schwabdev/env.json")) as f:
+        with open(os.path.expanduser("~/.schwabdev/env.json")) as f:
             return json.load(f)
     except OSError:
         return {}
@@ -43,7 +43,7 @@ class Tokens:
         Initialize a tokens manager.
 
         app_key, app_secret, and callback_url fall back to the global values in
-        ~/schwabdev/env.json when not provided; any argument passed here overrides
+        ~/.schwabdev/env.json when not provided; any argument passed here overrides
         its global counterpart.
 
         Args:
