@@ -179,10 +179,10 @@ class Tokens:
         try:
             self.access_token = self._dec(access_token)
             self.refresh_token = self._dec(refresh_token)
+            self.id_token = self._dec(id_token)
         except Exception as e:
             self._logger.error(f"[Schwabdev] Could not decrypt tokens from sqlite database ({e})")
             return False
-        self.id_token = id_token
         #self._expires_in = expires_in
         #self._token_type = token_type
         #self._scope = scope
@@ -236,7 +236,7 @@ class Tokens:
                     rt_issued.isoformat(),
                     self._enc(self.access_token),
                     self._enc(self.refresh_token),
-                    self.id_token,
+                    self._enc(self.id_token),
                     self._access_token_timeout,
                     token_type,
                     scope,
