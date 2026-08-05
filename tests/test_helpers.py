@@ -52,6 +52,15 @@ class TestTimeConvert:
         dt = datetime.datetime(2024, 3, 5, 9, 30, 45, tzinfo=UTC)
         assert base._time_convert(dt, TimeFormat.ISO_8601) == "2024-03-05T09:30:45.000Z"
 
+    @pytest.mark.parametrize("offset,local_time", [
+        (datetime.timedelta(hours=-5), (2024, 3, 5, 4, 30, 45, 123456)),
+        (datetime.timedelta(hours=5, minutes=30), (2024, 3, 5, 15, 0, 45, 123456)),
+    ])
+    def test_offset_aware_datetime_is_normalized_to_utc(self, base, offset, local_time):
+        # Regression: appending Z without normalization mislabeled local time as UTC.
+        dt = datetime.datetime(*local_time, tzinfo=datetime.timezone(offset))
+        assert base._time_convert(dt, TimeFormat.ISO_8601) == "2024-03-05T09:30:45.123Z"
+
     def test_bare_date_iso_and_epoch(self, base):
         # Regression: a datetime.date must convert (as midnight UTC), not raise.
         d = datetime.date(2024, 3, 5)
