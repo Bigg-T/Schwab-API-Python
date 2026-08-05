@@ -492,7 +492,7 @@ class Stream(StreamBase):
         self.stop()
 
     def start_auto(self, receiver=print, start_time: datetime.time = datetime.time(9, 29, 0),
-                   stop_time: datetime.time = datetime.time(16, 0, 0), on_days: list[int] = [0, 1, 2, 3, 4],
+                   stop_time: datetime.time = datetime.time(16, 0, 0), on_days: list[int] | tuple[int] = (0,1,2,3,4),
                    now_timezone: zoneinfo.ZoneInfo = zoneinfo.ZoneInfo("America/New_York"), daemon: bool = True, **kwargs):
         """
         Start the stream automatically at market open and close, will NOT erase subscriptions
