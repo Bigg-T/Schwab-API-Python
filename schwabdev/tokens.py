@@ -195,10 +195,10 @@ class Tokens:
         try:
             self.access_token = self._dec(access_token)
             self.refresh_token = self._dec(refresh_token)
+            self.id_token = self._dec(id_token)
         except Exception as e:
             self._logger.error(f"[Schwabdev] Could not decrypt tokens from sqlite database ({e})")
             return False
-        self.id_token = id_token
         return True
 
     def _set_tokens(self, at_issued: datetime.datetime, rt_issued: datetime.datetime,
@@ -234,7 +234,7 @@ class Tokens:
                 "INSERT INTO schwabdev (access_token_issued, refresh_token_issued, access_token, "
                 "refresh_token, id_token, expires_in, token_type, scope) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 (at_issued.isoformat(), rt_issued.isoformat(),
-                 self._enc(self.access_token), self._enc(self.refresh_token), self.id_token,
+                 self._enc(self.access_token), self._enc(self.refresh_token), self._enc(self.id_token),
                  self._access_token_timeout,
                  token_dictionary.get("token_type", "Bearer"),
                  token_dictionary.get("scope", "api")),
