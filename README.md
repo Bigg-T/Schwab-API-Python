@@ -27,15 +27,14 @@ Useful links:
 - Streaming stability with automatic restarts if the streamer crashes.  
 
 ### How to Contribute
-Contributions are welcome! To submit a change:
-
 1. Fork this repository.
 2. Create a branch off of `dev` for your change (e.g. `git checkout -b my-fix dev`).
 3. Make your change and commit it with a clear, descriptive message.
 4. Push your branch to your fork.
 5. Open a Pull Request **against the `dev` branch** (not `main`) of this repository.
 
-Keep each PR focused on a single change so it's easy to review. If you're fixing a bug or adding a feature, a short description of the problem/motivation in the PR description helps a lot. Questions before contributing are welcome in the <a target="_blank" href="https://discord.gg/m7SSjr9rs9">Discord</a>.
+Keep each PR focused on a single change so it's easy to review. 
+If you're fixing a bug or adding a feature, a short description of the problem/motivation in the PR description helps a lot.
 
 ### MIT License
 
