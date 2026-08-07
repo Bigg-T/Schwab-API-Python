@@ -17,7 +17,7 @@ try:
 except ImportError:  # async client is optional
     aiohttp = None
 
-from .enums import TimeFormat
+from .utils import TimeFormat
 from .tokens import Tokens
 from .validation import _Validator
 

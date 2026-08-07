@@ -24,17 +24,6 @@ def _now():
     return datetime.datetime.now(_UTC)
 
 
-def _load_env_globals() -> dict:
-    """Load global credentials from ~/.schwabdev/env.json (keys: app_key, app_secret,
-    callback_url). Returns {} if the file is absent; malformed JSON is raised so it
-    isn't silently ignored."""
-    try:
-        with open(os.path.expanduser("~/.schwabdev/env.json")) as f:
-            return json.load(f)
-    except OSError:
-        return {}
-
-
 class Tokens:
     def __init__(self, app_key: str = None, app_secret: str = None, callback_url: str = None,
                  logger: logging.Logger = None, tokens_db: str = "~/.schwabdev/tokens.db",
@@ -56,10 +45,15 @@ class Tokens:
             call_for_auth (function | None): Function to call for custom auth flow.
             open_browser_for_auth (bool): Open a browser during the auth flow.
         """
-        env = _load_env_globals()
-        app_key = app_key or env.get("app_key")
-        app_secret = app_secret or env.get("app_secret")
-        callback_url = callback_url or env.get("callback_url")
+        try:
+            with open(os.path.expanduser("~/.schwabdev/env.json")) as f:
+                env = json.load(f)
+        except OSError:
+            env = {}
+
+        app_key = app_key or env.get("app_key", None)
+        app_secret = app_secret or env.get("app_secret", None)
+        callback_url = callback_url or env.get("callback_url", None)
         logger = logger or logging.getLogger("Schwabdev")
 
         if not app_key:
