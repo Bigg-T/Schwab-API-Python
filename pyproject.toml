@@ -51,8 +51,8 @@ asyncio_mode = "auto"
 testpaths = "tests/"
 
 [project.optional-dependencies]
-trader = [
-    'schwabdev-trader',
+context = [
+    'schwabdev_context',
 ]
 
 examples = [
