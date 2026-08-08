@@ -1,7 +1,9 @@
-### Schwabdev Trader Context is a unified wrapper for backtesting and live trading.
+### Schwabdev Trader Context
 
-Write one strategy function. Backtest it on cached minute candles, paper-trade it on live data, or
-deploy it against your real Schwab account — the strategy code is identical in all three.
+Trader Context is a unified wrapper for backtesting and live trading. Write one strategy function. Backtest it on cached minute candles, paper-trade it on live data, or
+deploy it against your real Schwab account - the strategy code is identical in all three.
+
+To install run `pip install schwabdev[context]`
 
 Before using please note the current limitations:
 * Orders are single-leg equity only.
@@ -37,10 +39,10 @@ so the second backtest over the same range hits no network at all.
 
 A strategy is any callable `strategy(tc, events)`:
 
-* **`tc`** — the trader context. Everything the strategy can see or do goes through it (below).
+* **`tc`**: the trader context. Everything the strategy can see or do goes through it (below).
   The same object type is handed to you in backtest, paper and live, so a strategy cannot tell
   which mode it is running in.
-* **`events`** — the batch of new market events for this tick, in chronological order. Events are
+* **`events`**: the batch of new market events for this tick, in chronological order. Events are
   plain dicts; every one carries a `"type"` tag telling you what it is:
 
   | `type` | kind | shape |
@@ -53,7 +55,7 @@ A strategy is any callable `strategy(tc, events)`:
   merged latest quote from `tc.quotes[symbol]` instead of the raw event.
 
 **One tick = one timestamp.** In a backtest, all events sharing the same timestamp are delivered
-in a single call — Schwab stamps minute candles on the minute boundary, so every ticker's candle
+in a single call; Schwab stamps minute candles on the minute boundary, so every ticker's candle
 for 09:31 arrives together. Live, a tick is one stream message.
 
 ### Choosing what wakes the strategy
@@ -66,7 +68,7 @@ for 09:31 arrives together. Live, a tick is one stream message.
 | `level1` | `False` | level-1 quotes wake the strategy |
 | `level2` | `False` | order-book snapshots wake the strategy |
 
-Candles are **always ingested** regardless of `chart` — they settle simulated orders, price MARKET
+Candles are **always ingested** regardless of `chart`, they settle simulated orders, price MARKET
 orders and mark positions, the flag only controls whether they *wake* you. **Schwab has no history API for level-1/level-2, so in a backtest those replay only what you previously captured (see "Recording" below).**
 
 
@@ -97,7 +99,7 @@ Act:
 Overlay naming: a name containing a ticker (e.g. `"sma20 AMD"`) draws only on that ticker's panel;
 a name containing no ticker draws on every panel.
 
-`tc.cash` and `tc.sellable()` are advisory — orders are not rejected for exceeding them, so check
+`tc.cash` and `tc.sellable()` are advisory; orders are not rejected for exceeding them, so check
 before placing.
 
 
@@ -125,9 +127,9 @@ tc.order({**sell("AMD", 10), "orderType": "STOP", "stopPrice": 95.00})
 Placing an order records it as OPEN — reserving cash (buys) or committing shares (sells) — and it
 settles on a **later** tick, so a backtest order can never fill on the candle that triggered it:
 
-* **MARKET** — fills at the open of the candle `fill_delay` bars after placement (default 2).
-* **LIMIT** — rests until a later candle's open or close crosses the limit; fills at the limit.
-* **STOP** — triggers intrabar off the candle's low (SELL) / high (BUY); fills at the stop, or at
+* **MARKET**: fills at the open of the candle `fill_delay` bars after placement (default 2).
+* **LIMIT**: rests until a later candle's open or close crosses the limit; fills at the limit.
+* **STOP**: triggers intrabar off the candle's low (SELL) / high (BUY); fills at the stop, or at
   the open if the bar gapped through it (the worse price).
 
 In live **paper** mode `fill_delay` is 0: MARKET fills immediately at the last price, LIMIT and
@@ -167,11 +169,11 @@ runs = [ctx.backtest(s, ["AMD"], report=False) for s in strategies]
 best = max(runs, key=lambda r: r.stats["net_return"])
 ```
 
-* `run.report()` — reprint the text report.
-* `run.stats` — the underlying dict: `net_return`, `max_drawdown`, `sharpe`, `realized_pnl`,
+* `run.report()`: reprint the text report.
+* `run.stats`: the underlying dict: `net_return`, `max_drawdown`, `sharpe`, `realized_pnl`,
   `fees_paid`, `uniform_b&h`, and per-ticker `win_rate` / `profit_factor` / `returns` / `trades`.
-* `run.equity` — the `(time, portfolio_value)` curve, one point per tick.
-* `run.serve()` — browser charts (non-blocking); `run.plot()` — same, but blocks like
+* `run.equity`: the `(time, portfolio_value)` curve, one point per tick.
+* `run.serve()`: browser charts (non-blocking); `run.plot()` — same, but blocks like
   `plt.show()`.
 
 Closed trades are matched **FIFO at the share level**, so partial fills, scale-ins and scale-outs
@@ -213,8 +215,7 @@ session = ctx.deploy(strategy, ["AMD", "INTC"],
 ```
 
 * **Paper vs live** is decided when the `Trader` is constructed. Without `live_orders=True`
-  nothing can ever leave the process — the session paper-trades the identical strategy on live
-  data.
+  nothing can ever leave the process, the session paper-trades the identical strategy on live data.
 * **`cash`** defaults to your account's real settled cash when live (positions are adopted too, so
   `tc.sellable()` knows what you already own), or 10 000 for paper. Pass a number to override.
 * **`record=True`** writes every subscribed data type to the DB through the same pipeline
@@ -242,4 +243,4 @@ or live session streams in without refreshing.
   90 days × many tickers takes a few minutes; after that it's cached.
 * Timestamps are UNIX ms everywhere; candles are stamped at the start of the minute they cover.
 * Order rate limits (120/min, 4 000/day) are Schwab's, not enforced here.
-* This module is in development. Use at your own risk — especially with `live_orders=True`.
+* This module is in development. Use at your own risk especially with live orders.

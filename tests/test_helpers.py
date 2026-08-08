@@ -10,7 +10,7 @@ import types
 import pytest
 
 from schwabdev.client import Client
-from schwabdev.enums import TimeFormat
+from schwabdev.utils import TimeFormat
 
 UTC = datetime.timezone.utc
 
