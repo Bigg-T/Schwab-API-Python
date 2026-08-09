@@ -3,7 +3,7 @@
 Trader Context is a unified wrapper for backtesting and live trading. Write one strategy function. Backtest it on cached minute candles, paper-trade it on live data, or
 deploy it against your real Schwab account - the strategy code is identical in all three.
 
-To install run `pip install schwabdev[context]`
+To install run: `pip install schwabdev[context]`
 
 Before using please note the current limitations:
 * Orders are single-leg equity only.
@@ -16,20 +16,20 @@ Before using please note the current limitations:
 
 
 ```python
-    from schwabdev import Client, Context
-    from strategy import Strategy # example
+from schwabdev import Client, Context
+from strategy import Strategy # example
 
-    tickers = ["AMD", "INTC"] # what to test on
+tickers = ["AMD", "INTC"] # what to test on
 
-    client = Client(...)
-    ctx = Context(client)
-    strat = Strategy(tickers)
+client = Client(...)
+ctx = Context(client)
+strat = Strategy(tickers)
 
-    # run a backtest
-    run = ctx.backtest(my_strategy, tickers, cash=10_000, history_days=30, plot=True)
+# run a backtest
+run = ctx.backtest(my_strategy, tickers, cash=10_000, history_days=30, plot=True)
 
-    # deploy for live data (in beta release)
-    run = ctx.deploy(my_strategy, tickers, cash=10_000, plot=True)
+# deploy for live data (in beta release)
+run = ctx.deploy(my_strategy, tickers, cash=10_000, plot=True)
 ```
 
 Candles are fetched from Schwab once and cached in SQLite (`~/.schwabdev/candles.db` by default),
@@ -76,7 +76,7 @@ orders and mark positions, the flag only controls whether they *wake* you. **Sch
 
 Read:
 
-| | |
+| interface | function |
 |---|---|
 | `tc.candles[sym]` | candle history so far; latest is `tc.candles[sym][-1]` |
 | `tc.quotes[sym]` | latest merged level-1 quote |
@@ -90,7 +90,7 @@ Read:
 
 Act:
 
-| | |
+| interface | function |
 |---|---|
 | `tc.order(order_dict)` | place an order (Schwab order format, below); returns the order id |
 | `tc.cancel(order_id)` | cancel a resting order; returns `True` if it will be canceled |
@@ -145,7 +145,7 @@ from schwabdev import Costs
 run = ctx.backtest(strat, ["AMD"], costs=Costs(half_spread=0.0002, slip=0.0001, flat=0.0))
 ```
 
-`Costs(flat, per_share, pct, half_spread, slip, sec_fee, taf_per_share)` — half-spread and slip
+`Costs(flat, per_share, pct, half_spread, slip, sec_fee, taf_per_share)`: half-spread and slip
 move the execution price against you; the rest are cash fees. A limit order is never filled through
 its own price, whatever the slippage setting. Real broker fills are never charged — Schwab's own
 commissions already apply.

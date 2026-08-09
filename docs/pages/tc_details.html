@@ -11,7 +11,7 @@
 <h3>Schwabdev Trader Context</h3>
 <p>Trader Context is a unified wrapper for backtesting and live trading. Write one strategy function. Backtest it on cached minute candles, paper-trade it on live data, or
 deploy it against your real Schwab account - the strategy code is identical in all three.</p>
-<p>To install run <code>pip install schwabdev[context]</code></p>
+<p>To install run: <code>pip install schwabdev[context]</code></p>
 <p>Before using please note the current limitations:
 * Orders are single-leg equity only.
 * Only MARKET, LIMIT and STOP orders are supported.
@@ -20,20 +20,20 @@ deploy it against your real Schwab account - the strategy code is identical in a
 * You must record level 1 and level 2 data for backtesting, (candles are from price history).
 * Candles are 1-minute OHLC+volume. 
 * The unified context api is still under development and may change significantly between versions.</p>
-<div class="codehilite"><pre><span></span><code>    <span class="kn">from</span><span class="w"> </span><span class="nn">schwabdev</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Context</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Strategy</span> <span class="c1"># example</span>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">schwabdev</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Context</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Strategy</span> <span class="c1"># example</span>
 
-    <span class="n">tickers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AMD&quot;</span><span class="p">,</span> <span class="s2">&quot;INTC&quot;</span><span class="p">]</span> <span class="c1"># what to test on</span>
+<span class="n">tickers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AMD&quot;</span><span class="p">,</span> <span class="s2">&quot;INTC&quot;</span><span class="p">]</span> <span class="c1"># what to test on</span>
 
-    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-    <span class="n">strat</span> <span class="o">=</span> <span class="n">Strategy</span><span class="p">(</span><span class="n">tickers</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="n">strat</span> <span class="o">=</span> <span class="n">Strategy</span><span class="p">(</span><span class="n">tickers</span><span class="p">)</span>
 
-    <span class="c1"># run a backtest</span>
-    <span class="n">run</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">backtest</span><span class="p">(</span><span class="n">my_strategy</span><span class="p">,</span> <span class="n">tickers</span><span class="p">,</span> <span class="n">cash</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">history_days</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># run a backtest</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">backtest</span><span class="p">(</span><span class="n">my_strategy</span><span class="p">,</span> <span class="n">tickers</span><span class="p">,</span> <span class="n">cash</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">history_days</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1"># deploy for live data (in beta release)</span>
-    <span class="n">run</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">my_strategy</span><span class="p">,</span> <span class="n">tickers</span><span class="p">,</span> <span class="n">cash</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># deploy for live data (in beta release)</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">my_strategy</span><span class="p">,</span> <span class="n">tickers</span><span class="p">,</span> <span class="n">cash</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Candles are fetched from Schwab once and cached in SQLite (<code>~/.schwabdev/candles.db</code> by default),
@@ -113,8 +113,8 @@ orders and mark positions, the flag only controls whether they <em>wake</em> you
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>interface</th>
+<th>function</th>
 </tr>
 </thead>
 <tbody>
@@ -160,8 +160,8 @@ orders and mark positions, the flag only controls whether they <em>wake</em> you
 <table>
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>interface</th>
+<th>function</th>
 </tr>
 </thead>
 <tbody>
@@ -217,7 +217,7 @@ regulatory fees on sells; slippage and spread are off. Tune it per run:</p>
 <span class="n">run</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">backtest</span><span class="p">(</span><span class="n">strat</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;AMD&quot;</span><span class="p">],</span> <span class="n">costs</span><span class="o">=</span><span class="n">Costs</span><span class="p">(</span><span class="n">half_spread</span><span class="o">=</span><span class="mf">0.0002</span><span class="p">,</span> <span class="n">slip</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="mf">0.0</span><span class="p">))</span>
 </code></pre></div>
 
-<p><code>Costs(flat, per_share, pct, half_spread, slip, sec_fee, taf_per_share)</code> — half-spread and slip
+<p><code>Costs(flat, per_share, pct, half_spread, slip, sec_fee, taf_per_share)</code>: half-spread and slip
 move the execution price against you; the rest are cash fees. A limit order is never filled through
 its own price, whatever the slippage setting. Real broker fills are never charged — Schwab's own
 commissions already apply.</p>
