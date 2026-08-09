@@ -8,18 +8,20 @@
     <link rel="stylesheet" href="../lib/code.css">
 </head>
 <body>
-<h3>Schwabdev Trader Context</h3>
+<h3>Schwabdev Trader Context (<a href="https://github.com/tylerebowers/Schwabdev-Context">repo</a>)</h3>
 <p>Trader Context is a unified wrapper for backtesting and live trading. Write one strategy function. Backtest it on cached minute candles, paper-trade it on live data, or
-deploy it against your real Schwab account - the strategy code is identical in all three.</p>
+deploy it against your real Schwab account - the strategy code is identical in all three. </p>
 <p>To install run: <code>pip install schwabdev[context]</code></p>
-<p>Before using please note the current limitations:
-* Orders are single-leg equity only.
-* Only MARKET, LIMIT and STOP orders are supported.
-* Only BUY and SELL orders are supported.
-* Backtesting is limited to 30 days (unless you record more, as all history is cached).
-* You must record level 1 and level 2 data for backtesting, (candles are from price history).
-* Candles are 1-minute OHLC+volume. 
-* The unified context api is still under development and may change significantly between versions.</p>
+<p>Before using please note the current limitations:</p>
+<ul>
+<li>Orders are single-leg equity only.</li>
+<li>Only MARKET, LIMIT and STOP orders are supported.</li>
+<li>Only BUY and SELL orders are supported.</li>
+<li>Backtesting is limited to 30 days (unless you record more, as all history is cached).</li>
+<li>You must record level 1 and level 2 data for backtesting, (candles are from price history).</li>
+<li>Candles are 1-minute OHLC+volume. </li>
+<li>The unified context api is still under development and may change significantly between versions.</li>
+</ul>
 <div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">schwabdev</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">Context</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">strategy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Strategy</span> <span class="c1"># example</span>
 
