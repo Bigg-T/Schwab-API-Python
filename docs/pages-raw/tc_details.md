@@ -6,6 +6,7 @@ deploy it against your real Schwab account - the strategy code is identical in a
 To install run: `pip install schwabdev[context]`
 
 Before using please note the current limitations:
+
 * Orders are single-leg equity only.
 * Only MARKET, LIMIT and STOP orders are supported.
 * Only BUY and SELL orders are supported.
